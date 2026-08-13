@@ -1,14 +1,10 @@
 
 # Gestionar Tareas — Task Manager (CRUD)
 
-Proyecto de la materia **Arquitectura de Software**. CRUD de tareas con
-FastAPI + SQLAlchemy + SQLite en el backend, y HTML + CSS + JavaScript
+. CRUD de tareas con FastAPI + SQLAlchemy + SQLite en el backend, y HTML + CSS + JavaScript 
 plano en el frontend.
 
-La materia pedía **proponer una arquitectura propia**, no aplicar una ya
-existente tal cual. Empezamos con arquitectura por capas
-(`model → repository → service → controller → routes`) y la reorganizamos
-hacia una propuesta propia inspirada en **Vertical Slice Architecture** +
+ propuesta propia inspirada en **Vertical Slice Architecture** +
 **Screaming Architecture**: organizar por **acción** en vez de por tipo
 técnico, adaptada a nuestro criterio (nombres en español, decisiones
 propias sobre qué compartir). El nombre "Vertical Slice" ya existe como
