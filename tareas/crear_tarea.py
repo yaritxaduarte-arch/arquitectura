@@ -18,10 +18,10 @@ from pydantic import BaseModel, Field
 from typing import Optional
 
 from database.connection import get_db
-from tasks.model import Task
-from shared.esquemas import TaskResponse
-from shared.errores import TituloVacioError, TituloDuplicadoError
-from shared.validaciones import validar_titulo_no_vacio, validar_titulo_no_repetido
+from tareas.model import Task
+from compartido.esquemas import TaskResponse
+from compartido.errores import TituloVacioError, TituloDuplicadoError
+from compartido.validaciones import validar_titulo_no_vacio, validar_titulo_no_repetido
 
 router = APIRouter(prefix="/tasks", tags=["Tasks"])
 

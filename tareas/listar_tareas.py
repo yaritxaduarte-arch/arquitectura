@@ -14,8 +14,8 @@ from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 
 from database.connection import get_db
-from tasks.model import Task
-from shared.esquemas import TaskResponse
+from tareas.model import Task
+from compartido.esquemas import TaskResponse
 
 router = APIRouter(prefix="/tasks", tags=["Tasks"])
 

@@ -46,7 +46,10 @@ async function cargarTareas() {
       const li = document.createElement("li");
       li.className = tarea.completed ? "tarea completada" : "tarea";
       li.innerHTML = `
-        <span class="tarea-titulo">${tarea.title}</span>
+        <div class="tarea-contenido">
+          <span class="tarea-titulo">${tarea.title}</span>
+          ${tarea.description ? `<p class="tarea-descripcion">${tarea.description}</p>` : ""}
+        </div>
         <div class="tarea-acciones">
           <button class="btn-completar">✔</button>
           <button class="btn-editar">✎</button>

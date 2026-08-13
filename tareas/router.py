@@ -10,11 +10,11 @@ Este archivo no tiene lógica propia, solo conecta piezas.
 
 from fastapi import APIRouter
 
-from tasks.crear_tarea import router as crear_tarea_router
-from tasks.listar_tareas import router as listar_tareas_router
-from tasks.buscar_tarea import router as buscar_tarea_router
-from tasks.actualizar_tarea import router as actualizar_tarea_router
-from tasks.eliminar_tarea import router as eliminar_tarea_router
+from tareas.crear_tarea import router as crear_tarea_router
+from tareas.listar_tareas import router as listar_tareas_router
+from tareas.buscar_tarea import router as buscar_tarea_router
+from tareas.actualizar_tarea import router as actualizar_tarea_router
+from tareas.eliminar_tarea import router as eliminar_tarea_router
 
 router = APIRouter()
 

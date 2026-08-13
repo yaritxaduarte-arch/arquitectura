@@ -12,8 +12,8 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 
 from database.connection import get_db
-from shared.errores import TaskNotFoundError
-from tasks.buscar_tarea import obtener_tarea_o_lanzar_error
+from compartido.errores import TaskNotFoundError
+from tareas.buscar_tarea import obtener_tarea_o_lanzar_error
 
 router = APIRouter(prefix="/tasks", tags=["Tasks"])
 

@@ -20,10 +20,10 @@ from sqlalchemy.orm import Session
 from pydantic import BaseModel, Field
 
 from database.connection import get_db
-from shared.esquemas import TaskResponse
-from shared.errores import TaskNotFoundError, TituloVacioError, TituloDuplicadoError
-from shared.validaciones import validar_titulo_no_vacio, validar_titulo_no_repetido
-from tasks.buscar_tarea import obtener_tarea_o_lanzar_error
+from compartido.esquemas import TaskResponse
+from compartido.errores import TaskNotFoundError, TituloVacioError, TituloDuplicadoError
+from compartido.validaciones import validar_titulo_no_vacio, validar_titulo_no_repetido
+from tareas.buscar_tarea import obtener_tarea_o_lanzar_error
 
 router = APIRouter(prefix="/tasks", tags=["Tasks"])
 

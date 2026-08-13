@@ -118,6 +118,19 @@ header h1 {
   flex: 1;
 }
 
+.tarea-contenido {
+  flex: 1;
+  min-width: 0;
+}
+
+.tarea-descripcion {
+  margin: 4px 0 0;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  font-weight: 400;
+  line-height: 1.4;
+}
+
 .tarea.completada .tarea-titulo {
   color: var(--text-muted);
   text-decoration: line-through;

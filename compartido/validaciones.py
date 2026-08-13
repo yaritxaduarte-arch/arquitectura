@@ -15,8 +15,8 @@ from typing import Optional
 
 from sqlalchemy.orm import Session
 
-from tasks.model import Task
-from shared.errores import TituloVacioError, TituloDuplicadoError
+from tareas.model import Task
+from compartido.errores import TituloVacioError, TituloDuplicadoError
 
 
 def validar_titulo_no_vacio(titulo: str) -> None:

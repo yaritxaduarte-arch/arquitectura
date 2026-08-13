@@ -17,7 +17,7 @@ from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
 
 from database.connection import Base, engine
-from tasks.router import router as tasks_router
+from tareas.router import router as tasks_router
 
 # Crea las tablas definidas en los modelos (tasks/model.py) si no existen aún.
 Base.metadata.create_all(bind=engine)
@@ -30,4 +30,4 @@ app = FastAPI(
 
 app.include_router(tasks_router)
 
-app.mount("/", StaticFiles(directory="frontend/tasks", html=True), name="frontend")
+app.mount("/", StaticFiles(directory="frontend/tareas", html=True), name="frontend")

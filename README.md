@@ -31,7 +31,7 @@ arquitectura/
 │   ├── esquemas.py                # Forma de una tarea en las respuestas
 │   ├── errores.py                   # Errores de negocio compartidos
 │   └── validaciones.py               # Título no vacío / no repetido
-├── frontend/tasks/                # HTML + CSS + JS de la interfaz
+├── frontend/tareas/                # HTML + CSS + JS de la interfaz
 ├── tests/test_tasks.py           # Pruebas contra los endpoints HTTP
 ├── main.py                       # Registra rutas y sirve el frontend
 └── requirements.txt
