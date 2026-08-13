@@ -1,129 +1,107 @@
+
 # Gestionar Tareas — Task Manager (CRUD)
 
-Proyecto de la materia **Arquitectura de Software**. Un CRUD de tareas
-construido con FastAPI + SQLAlchemy + SQLite, organizado siguiendo
-**Screaming Architecture**: la estructura de carpetas dice qué hace el
-sistema (`tasks/`) en lugar de solo qué tecnologías usa.
+Proyecto de la materia **Arquitectura de Software**. CRUD de tareas con
+FastAPI + SQLAlchemy + SQLite en el backend, y HTML + CSS + JavaScript
+plano en el frontend.
+
+La materia pedía **proponer una arquitectura propia**, no aplicar una ya
+existente tal cual. Empezamos con arquitectura por capas
+(`model → repository → service → controller → routes`) y la reorganizamos
+hacia una propuesta propia inspirada en **Vertical Slice Architecture** +
+**Screaming Architecture**: organizar por **acción** en vez de por tipo
+técnico, adaptada a nuestro criterio (nombres en español, decisiones
+propias sobre qué compartir). El nombre "Vertical Slice" ya existe como
+patrón conocido; lo adoptamos como base, no lo inventamos desde cero.
 
 ## 🏗️ Arquitectura
 
 ```
-gestionar_tareas/
-├── database/
-│   └── connection.py     # Conexión a SQLite (engine, sesión, Base, get_db)
-│
-├── tasks/                 # ⭐ Feature principal: todo lo de tareas vive aquí
-│   ├── model.py            # Modelo SQLAlchemy (tabla en la BD)
-│   ├── schemas.py          # Schemas Pydantic (request/response de la API)
-│   ├── repository.py       # Acceso a datos (queries a la BD)
-│   ├── service.py          # Reglas de negocio
-│   ├── controller.py       # Traduce entre HTTP y el service
-│   └── routes.py           # Endpoints de FastAPI
-│
-├── tests/
-│   └── test_tasks.py       # Pruebas automáticas del CRUD
-│
-├── main.py                 # Punto de entrada de la aplicación
-├── requirements.txt
-└── .gitignore
+arquitectura/
+├── database/connection.py     # Conexión a SQLite
+├── tasks/
+│   ├── model.py                  # Tabla en la BD (no es una acción)
+│   ├── crear_tarea.py             # Acción: crear
+│   ├── listar_tareas.py            # Acción: listar
+│   ├── buscar_tarea.py              # Acción: buscar por id
+│   ├── actualizar_tarea.py           # Acción: actualizar
+│   ├── eliminar_tarea.py              # Acción: eliminar
+│   └── router.py                       # Junta las 5 en un solo router
+├── shared/
+│   ├── esquemas.py                # Forma de una tarea en las respuestas
+│   ├── errores.py                   # Errores de negocio compartidos
+│   └── validaciones.py               # Título no vacío / no repetido
+├── frontend/tasks/                # HTML + CSS + JS de la interfaz
+├── tests/test_tasks.py           # Pruebas contra los endpoints HTTP
+├── main.py                       # Registra rutas y sirve el frontend
+└── requirements.txt
 ```
 
-### Flujo de una petición
+Cada acción es un archivo autocontenido: su ruta HTTP, su validación y su
+acceso a la base de datos, todo junto. Antes, entender "crear una tarea"
+significaba abrir 4 archivos distintos; ahora es solo
+`tasks/crear_tarea.py`. Lo que se repite entre acciones (validaciones,
+formato de respuesta, errores) vive en `shared/`, para no duplicar código.
 
+## 🖥️ Frontend
+
+HTML + CSS + JS plano, servido por FastAPI con `StaticFiles`, conectado a
+la API con `fetch()`. `index.html` lista y filtra tareas; `formulario.html`
+sirve tanto para crear como para editar (con navegación real entre
+páginas, sin modal).
+
+## 🚀 Cómo correrlo
+
+```bash
+python -m venv venv
+venv\Scripts\activate          # Windows
+python -m pip install -r requirements.txt
+uvicorn main:app --reload
 ```
-Cliente HTTP
-   │
-   ▼
-routes.py        → define el endpoint (POST /tasks, GET /tasks/{id}, etc)
-   │
-   ▼
-controller.py     → recibe la petición, llama al service, maneja errores HTTP
-   │
-   ▼
-service.py         → aplica reglas de negocio
-   │
-   ▼
-repository.py       → habla con la base de datos (SQLAlchemy)
-   │
-   ▼
-model.py              → la tabla `tasks` en SQLite
-```
 
-Cada capa solo conoce a la capa de abajo. Esto permite, por ejemplo, cambiar
-la base de datos sin tocar las rutas, o agregar reglas de negocio sin tocar
-el acceso a datos.
+Abrir `http://127.0.0.1:8000` para la app, o `http://127.0.0.1:8000/docs`
+para la documentación interactiva (Swagger).
 
-## 🚀 Cómo correr el proyecto
-
-1. Clonar el repo y entrar a la carpeta.
-2. Crear y activar el entorno virtual:
-
-   ```bash
-   python -m venv .venv
-   # Windows
-   .venv\Scripts\activate
-   # Mac/Linux
-   source .venv/bin/activate
-   ```
-
-3. Instalar dependencias:
-
-   ```bash
-   python -m pip install -r requirements.txt
-   ```
-
-4. Levantar el servidor:
-
-   ```bash
-   uvicorn main:app --reload
-   ```
-
-5. Abrir la documentación interactiva (Swagger) en:
-
-   ```
-   http://127.0.0.1:8000/docs
-   ```
-
-   Ahí pueden probar todos los endpoints directamente desde el navegador.
-
-## 🧪 Cómo correr las pruebas
+## 🧪 Pruebas
 
 ```bash
 pytest -v
 ```
 
-## 📌 Endpoints disponibles
+Hablan directo con los endpoints HTTP, así que no les importa cómo está
+organizado el código por dentro.
 
-| Método | Ruta          | Descripción              |
-|--------|---------------|---------------------------|
-| POST   | `/tasks`      | Crear una tarea           |
-| GET    | `/tasks`      | Listar todas las tareas   |
-| GET    | `/tasks/{id}` | Consultar una tarea       |
-| PUT    | `/tasks/{id}` | Actualizar una tarea      |
-| DELETE | `/tasks/{id}` | Eliminar una tarea        |
+## 📌 Endpoints
 
-## 👥 Para el equipo: ¿dónde meto mi lógica?
+| Método | Ruta          | Acción responsable           |
+|--------|---------------|-------------------------------|
+| POST   | `/tasks`      | `tasks/crear_tarea.py`        |
+| GET    | `/tasks`      | `tasks/listar_tareas.py`      |
+| GET    | `/tasks/{id}` | `tasks/buscar_tarea.py`       |
+| PUT    | `/tasks/{id}` | `tasks/actualizar_tarea.py`   |
+| DELETE | `/tasks/{id}` | `tasks/eliminar_tarea.py`     |
 
-El CRUD básico ya funciona de punta a punta. Los lugares pensados para que
-agreguen lógica nueva son:
+## ✅ Reglas de negocio
 
-- **`tasks/service.py`** → reglas de negocio (validaciones, restricciones,
-  lo que "no debería pasar"). Hay comentarios `TODO` marcando ejemplos.
-- **`tasks/repository.py`** → si necesitan una consulta nueva a la base de
-  datos (ej. filtrar tareas completadas), va aquí.
-- **`tasks/model.py`** → si necesitan un campo nuevo en la tabla (ej.
-  prioridad, fecha límite), empiecen por aquí y luego actualicen
-  `tasks/schemas.py`.
-- **`tests/test_tasks.py`** → agreguen una prueba por cada cosa nueva que
-  hagan, para no romper lo que ya funciona.
+- El título no puede estar vacío ni ser solo espacios.
+- No puede haber dos tareas con el mismo título.
 
-## ✅ Estado del proyecto
+Ambas viven en `shared/validaciones.py` y se usan al crear y al
+actualizar.
 
-- [x] Estructura Screaming Architecture
-- [x] Conexión a SQLite
-- [x] Modelo `Task`
-- [x] Repository, Service, Controller, Routes
-- [x] CRUD completo y probado
-- [x] Tests automáticos (pytest)
+## 👥 Para el equipo
+
+- **Acción nueva** → archivo nuevo en `tasks/`, registrarlo en `router.py`.
+- **Algo que se repite entre acciones** → `shared/`.
+- **Campo nuevo en la tabla** → empezar por `tasks/model.py`.
+- **Prueba nueva** → `tests/test_tasks.py`.
+
+## ✅ Estado
+
+- [x] Backend por acción (Vertical Slice)
+- [x] Validaciones: título no vacío, no repetido
+- [x] Frontend conectado vía `fetch()`
+- [x] CRUD probado end-to-end (navegador + pytest)
 - [ ] Reglas de negocio adicionales (equipo)
 - [ ] Autenticación / usuarios (si el proyecto crece)
+```

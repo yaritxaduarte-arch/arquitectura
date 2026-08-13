@@ -14,9 +14,10 @@ este es el único archivo donde deben "engancharla":
 """
 
 from fastapi import FastAPI
+from fastapi.staticfiles import StaticFiles
 
 from database.connection import Base, engine
-from tasks.routes import router as tasks_router
+from tasks.router import router as tasks_router
 
 # Crea las tablas definidas en los modelos (tasks/model.py) si no existen aún.
 Base.metadata.create_all(bind=engine)
@@ -29,7 +30,4 @@ app = FastAPI(
 
 app.include_router(tasks_router)
 
-
-@app.get("/", tags=["Health"])
-def root():
-    return {"status": "ok", "message": "Gestionar Tareas API corriendo 🚀"}
+app.mount("/", StaticFiles(directory="frontend/tasks", html=True), name="frontend")

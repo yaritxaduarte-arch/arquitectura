@@ -1,0 +1,230 @@
+:root {
+  --bg: #F6F5F2;
+  --surface: #FFFFFF;
+  --accent: #2F6F62;
+  --accent-soft: #E4EFEC;
+  --text: #23282B;
+  --text-muted: #7C8580;
+  --danger: #C4634F;
+  --border: #E9E7E2;
+  --radius: 14px;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  padding: 40px 24px 80px;
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Inter', sans-serif;
+  min-height: 100vh;
+}
+
+header {
+  max-width: 640px;
+  margin: 0 auto 8px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+header h1 {
+  font-family: 'Fraunces', serif;
+  font-weight: 600;
+  font-size: 2.4rem;
+  margin: 0;
+  letter-spacing: -0.01em;
+}
+
+#btn-crear {
+  background: var(--accent);
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 999px;
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  box-shadow: 0 4px 14px rgba(47, 111, 98, 0.25);
+}
+
+#btn-crear:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px rgba(47, 111, 98, 0.32);
+}
+
+.filtros {
+  max-width: 640px;
+  margin: 24px auto 20px;
+  display: flex;
+  gap: 8px;
+}
+
+.filtro {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+  padding: 8px 16px;
+  border-radius: 999px;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.filtro:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.filtro.activo {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: white;
+}
+
+#lista-tareas {
+  max-width: 640px;
+  margin: 0 auto;
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.tarea {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  transition: box-shadow 0.15s ease;
+}
+
+.tarea:hover {
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
+}
+
+.tarea-titulo {
+  font-size: 1rem;
+  font-weight: 500;
+  flex: 1;
+}
+
+.tarea.completada .tarea-titulo {
+  color: var(--text-muted);
+  text-decoration: line-through;
+  text-decoration-color: var(--accent);
+}
+
+.tarea-acciones {
+  display: flex;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.tarea-acciones button {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  cursor: pointer;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s ease;
+  color: var(--text-muted);
+}
+
+.btn-completar:hover {
+  background: var(--accent-soft);
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.tarea.completada .btn-completar {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: white;
+}
+
+.btn-editar:hover {
+  background: #F0EEE9;
+  color: var(--text);
+}
+
+.btn-eliminar:hover {
+  background: #FBEAE6;
+  border-color: var(--danger);
+  color: var(--danger);
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  max-width: 480px;
+  margin: 24px auto;
+  padding: 0 16px;
+  gap: 8px;
+}
+
+label {
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  margin-top: 12px;
+}
+
+input[type="text"],
+textarea {
+  font-family: 'Inter', sans-serif;
+  font-size: 15px;
+  padding: 10px 12px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  outline: none;
+}
+
+textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+input[type="text"]:focus,
+textarea:focus {
+  border-color: #999;
+}
+
+.form-acciones {
+  display: flex;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.form-acciones button {
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+  padding: 10px 18px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+}
+
+.form-acciones button[type="submit"] {
+  background-color: #222;
+  color: white;
+}
+
+#btn-cancelar {
+  background-color: transparent;
+  border: 1px solid #ccc;
+}
