@@ -10,6 +10,12 @@ técnico, adaptada a nuestro criterio (nombres en español, decisiones
 propias sobre qué compartir). El nombre "Vertical Slice" ya existe como
 patrón conocido; lo adoptamos como base, no lo inventamos desde cero.
 
+**Vertical Slice Architecture**
+patrón de diseño de software que organiza el código por funcionalidades 
+independientes en lugar de por capas técnicas horizontales. Cada "rebanada" (slice) agrupa 
+todo lo necesario para completar una tarea específica, desde la interfaz hasta la base de datos
+
+
 ## 🏗️ Arquitectura
 
 ```
