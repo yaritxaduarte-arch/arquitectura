@@ -99,3 +99,32 @@ async function eliminarTarea(id) {
 }
 
 cargarTareas();
+
+// Lógica para el botón de búsqueda
+const inputBuscar = document.getElementById("inputBuscar");
+const btnBuscar = document.getElementById("btnBuscar");
+
+btnBuscar.addEventListener("click", () => {
+  const textoBusqueda = inputBuscar.value.toLowerCase().trim();
+  const itemsTareas = lista.querySelectorAll("li.tarea");
+
+  itemsTareas.forEach(li => {
+    const titulo = li.querySelector(".tarea-titulo").textContent.toLowerCase();
+    const descripcionElemento = li.querySelector(".tarea-descripcion");
+    const descripcion = descripcionElemento ? descripcionElemento.textContent.toLowerCase() : "";
+
+    // Si coincide con el título o la descripción, se muestra; si no, se oculta
+    if (titulo.includes(textoBusqueda) || descripcion.includes(textoBusqueda)) {
+      li.style.display = "flex";
+    } else {
+      li.style.display = "none";
+    }
+  });
+});
+
+// Permite buscar también presionando la tecla "Enter"
+inputBuscar.addEventListener("keypress", (e) => {
+  if (e.key === "Enter") {
+    btnBuscar.click();
+  }
+});
